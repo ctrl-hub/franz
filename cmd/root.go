@@ -32,7 +32,7 @@ func Execute() {
 	viper.BindPFlag("metrics_path", rootCmd.Flags().Lookup("metrics_path"))
 	viper.BindEnv("metrics_path")
 
-	rootCmd.Flags().Int("metrics_port", 3101, "Port to run the metrics server on")
+	rootCmd.Flags().Int("metrics_port", 3100, "Port to run the metrics server on")
 	viper.BindPFlag("metrics_port", rootCmd.Flags().Lookup("metrics_port"))
 	viper.BindEnv("metrics_port")
 
