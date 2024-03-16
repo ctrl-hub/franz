@@ -16,7 +16,7 @@ func Serve() error {
 
 	// run our first metric collection on start, then at a predefined tick
 	go collect()
-	ticker := time.NewTicker(5 * time.Second)
+	ticker := time.NewTicker(time.Duration(viper.GetInt("polling_interval_seconds")) * time.Second)
 	done := make(chan bool)
 	go func() {
 		for {
@@ -33,7 +33,12 @@ func Serve() error {
 	}()
 
 	// start the metrics server
-	logrus.WithField("port", viper.Get("metrics_port")).WithField("path", viper.GetString("metrics_path")).Info("starting metrics server")
+	logrus.
+		WithField("poll_interval", fmt.Sprintf("%ds", viper.GetInt("polling_interval_seconds"))).
+		WithField("port", viper.Get("metrics_port")).
+		WithField("path", viper.GetString("metrics_path")).
+		Info("starting metrics server")
+
 	http.Handle(viper.GetString("metrics_path"), handler)
 	return http.ListenAndServe(fmt.Sprintf(":%d", viper.GetInt("metrics_port")), nil)
 }

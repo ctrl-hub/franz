@@ -32,9 +32,13 @@ func Execute() {
 	viper.BindPFlag("metrics_path", rootCmd.Flags().Lookup("metrics_path"))
 	viper.BindEnv("metrics_path")
 
-	rootCmd.Flags().Int("metrics_port", 3101, "Port to run the metrics server on")
+	rootCmd.Flags().Int("metrics_port", 3100, "Port to run the metrics server on")
 	viper.BindPFlag("metrics_port", rootCmd.Flags().Lookup("metrics_port"))
 	viper.BindEnv("metrics_port")
+
+	rootCmd.Flags().Int("polling_interval_seconds", 10, "How often to poll the kafka cluster (in seconds)")
+	viper.BindPFlag("polling_interval_seconds", rootCmd.Flags().Lookup("polling_interval_seconds"))
+	viper.BindEnv("polling_interval_seconds")
 
 	rootCmd.Flags().String("confluent_cluster_label", "confluent", "The label value to add for the cluster label in metrics")
 	viper.BindPFlag("confluent_cluster_label", rootCmd.Flags().Lookup("confluent_cluster_label"))
