@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: franz
+  labels:
+    app: franz
+spec:
+  type: ClusterIP
+  ports:
+    - name: metrics
+      port: 3100
+      targetPort: metrics
+      protocol: TCP
+  selector:
+    app: franz
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: franz
+data:
+  CONFLUENT_ENDPOINT: cGtjLXh4eHh4eC54eHh4eHh4eHh4eHgueHh4LmNvbmZsdWVudC5jbG91ZDo5MDky
+  CONFLUENT_API_KEY: eHh4eHh4eHh4eHh4eHh4eA==
+  CONFLUENT_API_SECRET: eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eA==
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: franz
+  labels:
+    app: franz
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: franz
+  template:
+    metadata:
+      labels:
+        app: franz
+    spec:
+      containers:
+        - name: franz
+          env:
+            - name: CONFLUENT_CLUSTER_LABEL
+              value: my-cluster
+            - name: LOG_LEVEL
+              value: info
+            - name: LOG_FORMAT
+              value: logfmt
+            - name: METRICS_PORT
+              value: "3100"
+            - name: METRICS_PATH
+              value: /metrics
+          envFrom:
+            - secretRef:
+                name: franz
+          image: ghcr.io/franz:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: metrics
+              containerPort: 3100
+              protocol: TCP
