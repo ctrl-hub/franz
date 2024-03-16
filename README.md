@@ -39,12 +39,54 @@ kafka_topic_partition_info{cluster="my-cluster",leader="1",offline_replicas="0",
 
 There is an `.env.example` which you should copy to `.env` (`cp .env.example .env`). You should then add your cluster details and credentials to the env vars.
 
+### Configuration Options
+
+The run time configurarion can be changed using either environment variables or by passing arguments to the process.
+
+Env | Flag | Description | Default | Options
+--- | ---- | ------- | ----------- | ------- 
+`CONFLUENT_CLUSTER_LABEL`   | `--confluent_cluster_label`   | The label value to add for the cluster label in metric
+`CONFLUENT_ENDPOINT`        | `--confluent_endpoint`        | The confluent endpoint for the cluster (e.g. `pkc-xxxx.region.provider.onfluent.cloud:9092`)
+`CONFLUENT_API_KEY`         | `--confluent_api_key`         | The confluent API Key for SASL authentication (username)
+`CONFLUENT_API_SECRET`      | `--confluent_api_secret`      | The confluent API Secret for SASL authentication (password)
+`LOG_LEVEL`                 | `--log_level`                 | The log level to use                                                                          | `info`        | `fatal`, `panic`, `warn`, `info`, `debug`
+`LOG_FORMAT`                | `--log_format`                | How you want your logs formatted                                                              | `logfmt`      | `logfmt`, `json`
+`METRICS_PATH`              | `--metrics_path`              | The path to serve metrics on                                                                  | `/metrics`    |
+`METRICS_PORT`              | `--metrics_port`              | The port to serve metrics on                                                                  | `3100`
+`POLLING_INTERVAL_SECONDS`  | `--polling_interval_seconds`  | How often to poll the kafka cluster (in seconds)                                              | `10`
+
 ### Locally
 
-With Go installed, you can run `go get .` to grab the package deps and then run:
+With Go installed, you can run `go get .` to grab the package deps and then to run from source:
 
 ```bash
-source .env && go run main.go
+export $(cat .env | xargs) && go run main.go
+```
+
+You can pass in arguments on the command line, for example:
+
+```bash
+export $(cat .env | xargs) && go run main.go --polling_interval_seconds 30
+```
+
+To compile the app, you can run:
+
+```bash
+go build -o bin/franz
+```
+
+You can then run `export $(cat .env | xargs) && ./bin/franz --polling_interval_seconds 30` etc
+
+To install the app to your local `$GOPATH` you can run:
+
+```bash
+go install
+```
+
+You can then run:
+
+```bash
+export $(cat .env | xargs) && franz --polling_interval_seconds 30
 ```
 
 ### Docker Compose
