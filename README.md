@@ -15,11 +15,11 @@ kafka_broker_info{addr="b0-pkc-xxxxxx.europe-west1.gcp.confluent.cloud:9092",clu
 ...
 # HELP kafka_consumer_group_members The number of members in a consumer group.
 # TYPE kafka_consumer_group_members gauge
-kafka_consumer_group_members{cluster="my-cluster",name="svc.email",protocol="",protocol_type="consumer",state="Empty"} 0
+kafka_consumer_group_members{cluster="my-cluster",name="my-consumer-group",protocol="",protocol_type="consumer",state="Empty"} 0
 ...
 # HELP kafka_consumer_group_offsets The offset of a consumer group in a topic.
 # TYPE kafka_consumer_group_offsets gauge
-kafka_consumer_group_offsets{cluster="my-cluster",name="svc.email",partition="0",topic="my-super-topic"} 15648
+kafka_consumer_group_offsets{cluster="my-cluster",name="my-consumer-group",partition="0",topic="my-super-topic"} 15648
 ...
 # HELP kafka_topic_info Topic information - the value is arbitrary (labels hold info).
 # TYPE kafka_topic_info gauge
