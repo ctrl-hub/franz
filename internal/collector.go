@@ -66,7 +66,7 @@ func collect() error {
 	}
 
 	var allTopics []string
-	for topicName, _ := range topics {
+	for topicName := range topics {
 		allTopics = append(allTopics, topicName)
 	}
 
@@ -111,7 +111,7 @@ func collect() error {
 		return err
 	}
 	var allGroups []string
-	for group, _ := range groups {
+	for group := range groups {
 		allGroups = append(allGroups, group)
 	}
 
