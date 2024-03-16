@@ -15,6 +15,7 @@ func Serve() error {
 	handler := metricsHandler()
 
 	// run our first metric collection on start, then at a predefined tick
+	//nolint
 	go collect()
 	ticker := time.NewTicker(time.Duration(viper.GetInt("polling_interval_seconds")) * time.Second)
 	done := make(chan bool)

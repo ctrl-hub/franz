@@ -1,6 +1,6 @@
 module github.com/ctrl-hub/franz
 
-go 1.22.1
+go 1.22
 
 require (
 	github.com/IBM/sarama v1.43.0
