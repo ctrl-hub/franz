@@ -11,27 +11,27 @@ Our need to export this data led us down the path of kafka-exporter and it's for
 ```bash
 # HELP kafka_broker_info Broker information - the value is arbitrary (labels hold info).
 # TYPE kafka_broker_info gauge
-kafka_broker_info{addr="b0-pkc-xxxxxx.europe-west1.gcp.confluent.cloud:9092",cluster="my-cluster",id="0",rack="0"} 1
+kafka_broker_info{addr="b0-pkc-xxxxxx.europe-west1.gcp.confluent.cloud:9092",confluent_cluster="my-cluster",id="0",rack="0"} 1
 ...
 # HELP kafka_consumer_group_members The number of members in a consumer group.
 # TYPE kafka_consumer_group_members gauge
-kafka_consumer_group_members{cluster="my-cluster",name="my-consumer-group",protocol="",protocol_type="consumer",state="Empty"} 0
+kafka_consumer_group_members{confluent_cluster="my-cluster",name="my-consumer-group",protocol="",protocol_type="consumer",state="Empty"} 0
 ...
 # HELP kafka_consumer_group_offsets The offset of a consumer group in a topic.
 # TYPE kafka_consumer_group_offsets gauge
-kafka_consumer_group_offsets{cluster="my-cluster",name="my-consumer-group",partition="0",topic="my-super-topic"} 15648
+kafka_consumer_group_offsets{confluent_cluster="my-cluster",name="my-consumer-group",partition="0",topic="my-super-topic"} 15648
 ...
 # HELP kafka_topic_info Topic information - the value is arbitrary (labels hold info).
 # TYPE kafka_topic_info gauge
-kafka_topic_info{cluster="my-cluster",internal="false",name="my-super-topic",partitions="1"} 1
+kafka_topic_info{confluent_cluster="my-cluster",internal="false",name="my-super-topic",partitions="1"} 1
 ...
 # HELP kafka_topic_parititions Number of partitions in a topic
 # TYPE kafka_topic_parititions gauge
-kafka_topic_parititions{cluster="my-cluster",topic="my-super-topic"} 1
+kafka_topic_parititions{confluent_cluster="my-cluster",topic="my-super-topic"} 1
 ...
 # HELP kafka_topic_partition_info Topic partition information - the value is arbitrary (labels hold info).
 # TYPE kafka_topic_partition_info gauge
-kafka_topic_partition_info{cluster="my-cluster",leader="1",offline_replicas="0",partition="0",replicas="3",topic="my-super-topic"} 1
+kafka_topic_partition_info{confluent_cluster="my-cluster",leader="1",offline_replicas="0",partition="0",replicas="3",topic="my-super-topic"} 1
 ...
 ```
 

@@ -52,10 +52,10 @@ func collect() error {
 	brokerMetrics.Reset()
 	for _, broker := range brokers {
 		brokerMetrics.With(prometheus.Labels{
-			"cluster": clusterLabel,
-			"id":      fmt.Sprintf("%d", broker.ID()),
-			"addr":    broker.Addr(),
-			"rack":    broker.Rack(),
+			"confluent_cluster": clusterLabel,
+			"id":                fmt.Sprintf("%d", broker.ID()),
+			"addr":              broker.Addr(),
+			"rack":              broker.Rack(),
 		}).Set(1)
 	}
 
@@ -81,26 +81,26 @@ func collect() error {
 	topicPartitionDetailMetrics.Reset()
 	for _, topic := range topicsMetadata {
 		topicMetrics.With(prometheus.Labels{
-			"cluster":    clusterLabel,
-			"name":       topic.Name,
-			"partitions": strconv.Itoa(len(topic.Partitions)),
-			"internal":   strconv.FormatBool(topic.IsInternal),
+			"confluent_cluster": clusterLabel,
+			"name":              topic.Name,
+			"partitions":        strconv.Itoa(len(topic.Partitions)),
+			"internal":          strconv.FormatBool(topic.IsInternal),
 		}).Set(1)
 
 		topicPartitionMetrics.With(prometheus.Labels{
-			"cluster": clusterLabel,
-			"topic":   topic.Name,
+			"confluent_cluster": clusterLabel,
+			"topic":             topic.Name,
 		}).Set(float64(len(topic.Partitions)))
 
 		for _, partition := range topic.Partitions {
 			topicPartitions[topic.Name] = append(topicPartitions[topic.Name], partition.ID)
 			topicPartitionDetailMetrics.With(prometheus.Labels{
-				"cluster":          clusterLabel,
-				"topic":            topic.Name,
-				"partition":        fmt.Sprintf("%d", partition.ID),
-				"leader":           fmt.Sprintf("%d", partition.Leader),
-				"replicas":         strconv.Itoa(len(partition.Replicas)),
-				"offline_replicas": strconv.Itoa(len(partition.OfflineReplicas)),
+				"confluent_cluster": clusterLabel,
+				"topic":             topic.Name,
+				"partition":         fmt.Sprintf("%d", partition.ID),
+				"leader":            fmt.Sprintf("%d", partition.Leader),
+				"replicas":          strconv.Itoa(len(partition.Replicas)),
+				"offline_replicas":  strconv.Itoa(len(partition.OfflineReplicas)),
 			}).Set(1)
 		}
 	}
@@ -124,11 +124,11 @@ func collect() error {
 	consumerGroupOffsetMetrics.Reset()
 	for _, consumerGroupDescription := range groupDescriptions {
 		consumerGroupMembersMetrics.With(prometheus.Labels{
-			"cluster":       clusterLabel,
-			"name":          consumerGroupDescription.GroupId,
-			"state":         consumerGroupDescription.State,
-			"protocol":      consumerGroupDescription.Protocol,
-			"protocol_type": consumerGroupDescription.ProtocolType,
+			"confluent_cluster": clusterLabel,
+			"name":              consumerGroupDescription.GroupId,
+			"state":             consumerGroupDescription.State,
+			"protocol":          consumerGroupDescription.Protocol,
+			"protocol_type":     consumerGroupDescription.ProtocolType,
 		}).Set(float64(len(consumerGroupDescription.Members)))
 
 		o, err := clusterAdmin.ListConsumerGroupOffsets(consumerGroupDescription.GroupId, topicPartitions)
@@ -141,10 +141,10 @@ func collect() error {
 				// only track metrics for block offsets that aren't `-1` - those are not subscribed to the topic
 				if block.Offset >= 0 {
 					consumerGroupOffsetMetrics.With(prometheus.Labels{
-						"cluster":   clusterLabel,
-						"name":      consumerGroupDescription.GroupId,
-						"topic":     topic,
-						"partition": fmt.Sprintf("%d", i),
+						"confluent_cluster": clusterLabel,
+						"name":              consumerGroupDescription.GroupId,
+						"topic":             topic,
+						"partition":         fmt.Sprintf("%d", i),
 					}).Set(float64(block.Offset))
 				}
 			}
