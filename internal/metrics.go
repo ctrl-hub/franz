@@ -16,7 +16,7 @@ var (
 			Name:      "info",
 			Help:      "Topic information - the value is arbitrary (labels hold info).",
 		},
-		[]string{"cluster", "name", "partitions", "internal"},
+		[]string{"confluent_cluster", "name", "partitions", "internal"},
 	)
 	topicPartitionMetrics = promauto.NewGaugeVec(
 		prometheus.GaugeOpts{
@@ -25,7 +25,7 @@ var (
 			Name:      "parititions",
 			Help:      "Number of partitions in a topic",
 		},
-		[]string{"cluster", "topic"},
+		[]string{"confluent_cluster", "topic"},
 	)
 	topicPartitionDetailMetrics = promauto.NewGaugeVec(
 		prometheus.GaugeOpts{
@@ -34,7 +34,7 @@ var (
 			Name:      "partition_info",
 			Help:      "Topic partition information - the value is arbitrary (labels hold info).",
 		},
-		[]string{"cluster", "topic", "partition", "leader", "replicas", "offline_replicas"},
+		[]string{"confluent_cluster", "topic", "partition", "leader", "replicas", "offline_replicas"},
 	)
 	consumerGroupMembersMetrics = promauto.NewGaugeVec(
 		prometheus.GaugeOpts{
@@ -43,7 +43,7 @@ var (
 			Name:      "members",
 			Help:      "The number of members in a consumer group.",
 		},
-		[]string{"cluster", "name", "state", "protocol", "protocol_type"},
+		[]string{"confluent_cluster", "name", "state", "protocol", "protocol_type"},
 	)
 	consumerGroupOffsetMetrics = promauto.NewGaugeVec(
 		prometheus.GaugeOpts{
@@ -52,7 +52,7 @@ var (
 			Name:      "offsets",
 			Help:      "The offset of a consumer group in a topic.",
 		},
-		[]string{"cluster", "name", "topic", "partition"},
+		[]string{"confluent_cluster", "name", "topic", "partition"},
 	)
 	brokerMetrics = promauto.NewGaugeVec(
 		prometheus.GaugeOpts{
@@ -61,7 +61,7 @@ var (
 			Name:      "info",
 			Help:      "Broker information - the value is arbitrary (labels hold info).",
 		},
-		[]string{"cluster", "id", "addr", "rack"},
+		[]string{"confluent_cluster", "id", "addr", "rack"},
 	)
 )
 
