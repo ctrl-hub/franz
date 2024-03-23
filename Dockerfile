@@ -11,10 +11,10 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o bin .
+RUN CGO_ENABLED=0 GOOS=linux go build -o bin/franz .
 
 FROM scratch
 
-COPY --from=build /app/bin /app/bin
+COPY --from=build /app/bin/franz /app/bin/franz
 
-CMD ["/app/bin"]
+CMD ["/app/bin/franz"]
