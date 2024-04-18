@@ -27,21 +27,18 @@ func clusterConfig() *sarama.Config {
 		InsecureSkipVerify: true,
 	}
 
+	config.MetricRegistry.UnregisterAll()
+
 	return config
 }
 
-func collect() error {
+func collect(clusterAdmin sarama.ClusterAdmin) error {
 
 	start := time.Now()
 	logrus.Debug("starting metrics collection")
 
 	clusterLabel := viper.GetString("confluent_cluster_label")
 	topicPartitions := map[string][]int32{}
-
-	clusterAdmin, err := sarama.NewClusterAdmin([]string{viper.GetString("confluent_endpoint")}, clusterConfig())
-	if err != nil {
-		return err
-	}
 
 	// get broker info
 	brokers, _, err := clusterAdmin.DescribeCluster()
