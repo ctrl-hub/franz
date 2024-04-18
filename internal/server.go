@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 	"net/http"
+	"net/http/pprof"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -38,8 +39,12 @@ func Serve() error {
 		WithField("poll_interval", fmt.Sprintf("%ds", viper.GetInt("polling_interval_seconds"))).
 		WithField("port", viper.Get("metrics_port")).
 		WithField("path", viper.GetString("metrics_path")).
+		WithField("profiling_enabled", viper.GetBool("profiling_enabled")).
 		Info("starting metrics server")
 
 	http.Handle(viper.GetString("metrics_path"), handler)
+	if viper.GetBool("profiling_enabled") {
+		http.Handle("/debug/pprof/allocs", pprof.Handler("allocs"))
+	}
 	return http.ListenAndServe(fmt.Sprintf(":%d", viper.GetInt("metrics_port")), nil)
 }

@@ -36,6 +36,10 @@ func Execute() {
 	viper.BindPFlag("metrics_port", rootCmd.Flags().Lookup("metrics_port"))
 	viper.BindEnv("metrics_port")
 
+	rootCmd.Flags().Bool("profiling_enabled", false, "Enable pprof profiling")
+	viper.BindPFlag("profiling_enabled", rootCmd.Flags().Lookup("profiling_enabled"))
+	viper.BindEnv("profiling_enabled")
+
 	rootCmd.Flags().Int("polling_interval_seconds", 10, "How often to poll the kafka cluster (in seconds)")
 	viper.BindPFlag("polling_interval_seconds", rootCmd.Flags().Lookup("polling_interval_seconds"))
 	viper.BindEnv("polling_interval_seconds")
